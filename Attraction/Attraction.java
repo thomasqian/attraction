@@ -28,12 +28,13 @@ public class Attraction extends JFrame {
 
     pack();
     validate();
+    setResizable(false);
     setVisible(true);
   }
 
   private void init() {
-    c = new Controller(width / 8, height);
-    g = new Grid(width, height, res, c);
+    c = new Controller(width / 4, height);
+    g = new Grid(width * 3 / 4, height, res, c);
     c.setGrid(g);
     add(g, BorderLayout.CENTER);
     add(c, BorderLayout.EAST);
