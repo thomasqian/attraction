@@ -20,7 +20,7 @@ public class Grid extends JPanel {
         this.height = height;
         this.res = res;
 
-        setPreferredSize(new Dimension(width, height));
+        //setPreferredSize(new Dimension(width, height));
         setBackground(Color.RED);
         setLayout(new GridBagLayout());
         c = new GridBagConstraints();
@@ -29,14 +29,19 @@ public class Grid extends JPanel {
 
         for (int y = 0; y < height / res; ++y) {
             for (int x = 0; x < width / res; ++x) {
-                points[y][x] = new Point(res);
+                points[y][x] = new Point(y, x, res, this);
                 c.gridx = x;
                 c.gridy = y;
                 add(points[y][x], c);
             }
         }
 
-        setBackground(Color.GREEN);
+        setBackground(Color.BLACK);
         requestFocusInWindow();
+    }
+
+    public void pointTriggered(int y, int x) {
+      points[y][x].setEntity(new Warrior(y, x));
+      repaint();
     }
 }

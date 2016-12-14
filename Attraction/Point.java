@@ -8,58 +8,55 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 public class Point extends JPanel implements MouseListener {
-    private boolean filled;
-    private static boolean mouse_down = false;
+  private static boolean mouse_down = false;
+  private static Grid grid;
+  private int y;
+  private int x;
+  private Entity entity;
 
-    public Point(int size) {
-        filled = false;
-        setPreferredSize(new Dimension(size, size));
-        addMouseListener(this);
-    }
+  public Point(int y, int x, int size, Grid grid) {
+    this.y = y;
+    this.x = x;
+    this.grid = grid;
+    entity = null;
+    setPreferredSize(new Dimension(size, size));
+    addMouseListener(this);
+  }
 
-    public void paintComponent(Graphics g) {
-        if (filled) {
-            g.setColor(Color.BLACK);
-        } else {
-            g.setColor(Color.WHITE);
-        }
-        g.fillRect(0, 0, getWidth(), getHeight());
+  public void paintComponent(Graphics g) {
+    if (entity != null) {
+      g.setColor(entity.getColor());
+    } else {
+      g.setColor(Color.WHITE);
     }
+    g.fillRect(0, 0, getWidth(), getHeight());
+  }
 
-    public boolean toggleFilled() {
-        filled = !filled;
-        repaint();
-        return filled;
-    }
-    
-    public void setFilled(boolean fill) {
-        filled = fill;
-        repaint();
-    }
+  public void setEntity(Entity e) { this.entity = e; }
 
-    public boolean isFilled() { return filled; }
-    
-    @Override
+  public void clearEntity() { this.entity = null; }
+
+  public boolean hasEntity() { return entity != null; }
+
+  @Override
     public void mouseClicked(MouseEvent m) {}
 
-    @Override
+  @Override
     public void mousePressed(MouseEvent m) { 
-        mouse_down = true;
-        filled = true;
-        repaint();
+      mouse_down = true;
+      grid.pointTriggered(y, x);
     }
 
-    @Override
+  @Override
     public void mouseReleased(MouseEvent m) { mouse_down = false;}
 
-    @Override
+  @Override
     public void mouseEntered(MouseEvent m) {
-        if (mouse_down) {
-            filled = true;
-            repaint();
-        }
+      if (mouse_down) {
+        grid.pointTriggered(y, x);
+      }
     }
 
-    @Override
+  @Override
     public void mouseExited(MouseEvent m) {}
 }

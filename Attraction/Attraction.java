@@ -17,12 +17,14 @@ public class Attraction extends JFrame {
         res = Toolkit.getDefaultToolkit().getScreenResolution() / 8;
 
         setTitle("Attraction: " + width + "x" + height + ", Res: " + res);
-        setSize(width, height);
+        //setPreferredSize(new Dimension(width, height));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
         init();
 
+        pack();
+        validate();
         setVisible(true);
     }
 
