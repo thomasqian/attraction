@@ -3,37 +3,43 @@ package Attraction;
 import javax.swing.JFrame;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.awt.BorderLayout;
 
 public class Attraction extends JFrame {
-    private static int width;
-    private static int height;
-    private static int res;
-    private Grid g;
+  private static int width;
+  private static int height;
+  private static int res;
+  private Controller c;
+  private Grid g;
 
-    public Attraction() {
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        width = (int)screenSize.getWidth() / 2;
-        height = (int)screenSize.getHeight() / 2;
-        res = Toolkit.getDefaultToolkit().getScreenResolution() / 8;
+  public Attraction() {
+    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+    width = (int)screenSize.getWidth() / 2;
+    height = (int)screenSize.getHeight() / 2;
+    res = Toolkit.getDefaultToolkit().getScreenResolution() / 8;
 
-        setTitle("Attraction: " + width + "x" + height + ", Res: " + res);
-        //setPreferredSize(new Dimension(width, height));
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
+    setTitle("Attraction: " + width + "x" + height + ", Res: " + res);
+    setLayout(new BorderLayout());
+    //setPreferredSize(new Dimension(width, height));
+    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    setLocationRelativeTo(null);
 
-        init();
+    init();
 
-        pack();
-        validate();
-        setVisible(true);
-    }
+    pack();
+    validate();
+    setVisible(true);
+  }
 
-    private void init() {
-        g = new Grid(width, height, res);
-        add(g);
-    }
+  private void init() {
+    c = new Controller(width / 8, height);
+    g = new Grid(width, height, res, c);
+    c.setGrid(g);
+    add(g, BorderLayout.CENTER);
+    add(c, BorderLayout.EAST);
+  }
 
-    public static void main(String[] args) {
-        Attraction a = new Attraction();
-    }
+  public static void main(String[] args) {
+    Attraction a = new Attraction();
+  }
 }
